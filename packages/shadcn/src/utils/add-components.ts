@@ -1,3 +1,4 @@
+import { readFile, writeFile } from "fs/promises"
 import path from "path"
 import {
   fetchRegistry,
@@ -29,6 +30,7 @@ import { updateCssVars } from "@/src/utils/updaters/update-css-vars"
 import { updateDependencies } from "@/src/utils/updaters/update-dependencies"
 import { updateFiles } from "@/src/utils/updaters/update-files"
 import { updateTailwindConfig } from "@/src/utils/updaters/update-tailwind-config"
+import { defu } from "defu"
 import { z } from "zod"
 
 export async function addComponents(
@@ -205,6 +207,21 @@ async function addWorkspaceComponents(
       })
       filesUpdated.push(
         path.relative(workspaceRoot, targetConfig.resolvedPaths.tailwindConfig)
+      )
+    }
+
+    if (component.packageJson) {
+      const oldPackageJson = await readFile(
+        path.join(packageRoot, "package.json"),
+        "utf-8"
+      )
+      const newPackageJson = defu(
+        JSON.parse(oldPackageJson),
+        component.packageJson
+      )
+      await writeFile(
+        path.join(packageRoot, "package.json"),
+        JSON.stringify(newPackageJson, null, 2)
       )
     }
 

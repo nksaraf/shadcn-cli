@@ -14,6 +14,7 @@ export const registryItemTypeSchema = z.enum([
   "registry:theme",
   "registry:style",
   "registry:item",
+  "registry:package-json",
   "registry:env",
 
   // Internal use only
@@ -84,6 +85,7 @@ export const registryItemSchema = z.object({
   meta: z.record(z.string(), z.any()).optional(),
   docs: z.string().optional(),
   categories: z.array(z.string()).optional(),
+  packageJson: z.any().optional(),
 })
 
 export type RegistryItem = z.infer<typeof registryItemSchema>

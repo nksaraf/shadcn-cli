@@ -1,6 +1,6 @@
 import { existsSync, promises as fs } from "fs"
 import { tmpdir } from "os"
-import path, { basename } from "path"
+import path, { basename, join } from "path"
 import { getRegistryBaseColor } from "@/src/registry/api"
 import { RegistryItem, registryItemFileSchema } from "@/src/registry/schema"
 import { Config } from "@/src/utils/get-config"
@@ -288,6 +288,10 @@ function resolveFileTargetDirectory(
 
   if (file.type === "registry:hook") {
     return config.resolvedPaths.hooks
+  }
+
+  if (file.type === "registry:env") {
+    return join(config.resolvedPaths.cwd, "env")
   }
 
   return config.resolvedPaths.components
