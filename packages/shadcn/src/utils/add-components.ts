@@ -134,11 +134,12 @@ async function addProjectComponents(
     silent: options.silent,
   })
 
-  await updateDependencies(tree.dependencies, tree.devDependencies, config, {
-    silent: options.silent,
-  })
   await updateFiles(tree.files, config, {
     overwrite: options.overwrite,
+    silent: options.silent,
+  })
+
+  await updateDependencies(tree.dependencies, tree.devDependencies, config, {
     silent: options.silent,
   })
 
@@ -265,6 +266,14 @@ async function addWorkspaceComponents(
       )
     }
 
+    // 5. Update files.
+    const files = await updateFiles(component.files, targetConfig, {
+      overwrite: options.overwrite,
+      silent: true,
+      rootSpinner,
+      isRemote: options.isRemote,
+    })
+
     // 4. Update dependencies.
     await updateDependencies(
       component.dependencies,
@@ -274,14 +283,6 @@ async function addWorkspaceComponents(
         silent: true,
       }
     )
-
-    // 5. Update files.
-    const files = await updateFiles(component.files, targetConfig, {
-      overwrite: options.overwrite,
-      silent: true,
-      rootSpinner,
-      isRemote: options.isRemote,
-    })
 
     filesCreated.push(
       ...files.filesCreated.map((file) =>
