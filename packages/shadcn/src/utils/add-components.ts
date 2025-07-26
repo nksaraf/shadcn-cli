@@ -98,6 +98,18 @@ async function addProjectComponents(
 
   const tailwindVersion = await getProjectTailwindVersionFromConfig(config)
 
+  if (tree.packageJson) {
+    const oldPackageJson = await readFile(
+      path.join(config.resolvedPaths.cwd, "package.json"),
+      "utf-8"
+    )
+    const newPackageJson = defu(JSON.parse(oldPackageJson), tree.packageJson)
+    await writeFile(
+      path.join(config.resolvedPaths.cwd, "package.json"),
+      JSON.stringify(newPackageJson, null, 2)
+    )
+  }
+
   await updateTailwindConfig(tree.tailwind?.config, config, {
     silent: options.silent,
     tailwindVersion,
