@@ -82,6 +82,16 @@ export async function getProjectInfo(cwd: string): Promise<ProjectInfo | null> {
     aliasPrefix,
   }
 
+  if (
+    [
+      ...Object.keys(packageJson?.dependencies ?? {}),
+      ...Object.keys(packageJson?.devDependencies ?? {}),
+    ].find((dep) => dep.startsWith("@rio.js/vinxi"))
+  ) {
+    type.framework = FRAMEWORKS["riokit"]
+    return type
+  }
+
   // Next.js.
   if (configFiles.find((file) => file.startsWith("next.config."))?.length) {
     type.framework = isUsingAppDir

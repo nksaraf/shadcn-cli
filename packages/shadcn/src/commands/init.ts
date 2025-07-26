@@ -219,7 +219,9 @@ export async function runInit(
     silent: options.silent,
     style: options.style,
     isNewProject:
-      options.isNewProject || projectInfo?.framework.name === "next-app",
+      options.isNewProject ||
+      projectInfo?.framework.name === "next-app" ||
+      projectInfo?.framework.name === "riokit",
   })
 
   // If a new project is using src dir, let's update the tailwind content config.

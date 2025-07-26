@@ -7,6 +7,14 @@ export const FRAMEWORKS = {
       tailwind: "https://tailwindcss.com/docs/guides/nextjs",
     },
   },
+  riokit: {
+    name: "riokit",
+    label: "RioKit",
+    links: {
+      installation: "https://ui.shadcn.com/docs/installation/next",
+      tailwind: "https://tailwindcss.com/docs/guides/nextjs",
+    },
+  },
   "next-pages": {
     name: "next-pages",
     label: "Next.js",

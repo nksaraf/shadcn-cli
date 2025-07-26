@@ -364,6 +364,10 @@ export function resolvePageTarget(
     return ""
   }
 
+  if (framework === "riokit") {
+    return target
+  }
+
   if (framework === "next-app") {
     return target
   }
