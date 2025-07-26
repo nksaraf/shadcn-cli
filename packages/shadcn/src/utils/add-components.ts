@@ -30,6 +30,7 @@ import { updateCssVars } from "@/src/utils/updaters/update-css-vars"
 import { updateDependencies } from "@/src/utils/updaters/update-dependencies"
 import { updateFiles } from "@/src/utils/updaters/update-files"
 import { updateTailwindConfig } from "@/src/utils/updaters/update-tailwind-config"
+import deepmerge from "deepmerge"
 import { defu } from "defu"
 import { z } from "zod"
 
@@ -103,7 +104,10 @@ async function addProjectComponents(
       path.join(config.resolvedPaths.cwd, "package.json"),
       "utf-8"
     )
-    const newPackageJson = defu(JSON.parse(oldPackageJson), tree.packageJson)
+    const newPackageJson = deepmerge(
+      JSON.parse(oldPackageJson),
+      tree.packageJson
+    )
     await writeFile(
       path.join(config.resolvedPaths.cwd, "package.json"),
       JSON.stringify(newPackageJson, null, 2)
