@@ -14,7 +14,6 @@ export const registryItemTypeSchema = z.enum([
   "registry:theme",
   "registry:style",
   "registry:item",
-  "registry:package-json",
   "registry:env",
 
   // Internal use only
@@ -131,4 +130,5 @@ export const registryResolvedItemsTreeSchema = registryItemSchema.pick({
   cssVars: true,
   css: true,
   docs: true,
+  packageJson: true,
 })

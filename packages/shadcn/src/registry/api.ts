@@ -476,6 +476,11 @@ export async function registryResolveItemsTree(
       }
     })
 
+    let packageJson = {}
+    payload.forEach((item) => {
+      packageJson = deepmerge(packageJson, item.packageJson ?? {})
+    })
+
     return registryResolvedItemsTreeSchema.parse({
       dependencies: deepmerge.all(
         payload.map((item) => item.dependencies ?? [])
@@ -488,6 +493,7 @@ export async function registryResolveItemsTree(
       cssVars,
       css,
       docs,
+      packageJson,
     })
   } catch (error) {
     handleError(error)
